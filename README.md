@@ -25,3 +25,5 @@ demonstrate how to print out the full error messages and even customize them a b
 prefill the form field values based on the error instance. you could even show them how to not write out the invalid pre-filled data should they want, say, in the case of a credit card number.
 
 demonstrate how to set a class "error" (we should have a stylesheet that has a .error giving form inputs a red border) if the object has an error on that particular field.
+
+<a href='https://learn.co/lessons/validations-with-form_tag-rails' data-visibility='hidden'>View this lesson on Learn.co</a>

@@ -39,7 +39,7 @@ Let's start with a vanilla form (no pre-filled values yet), using the
 <!-- app/views/people/new.html.erb //-->
 
 <%= form_tag("/people") do %>
-  Name: <%= text_field_tag "name" %><br />
+  Name: <%= text_field_tag "name" %><br>
   Email: <%= text_field_tag "email" %>
   <%= submit_tag "Create Person" %>
 <% end %>
@@ -103,7 +103,7 @@ Now, let's plug the information back into the form:
 <!-- app/views/people/new.html.erb //-->
 
 <%= form_tag "/people" do %>
-  Name: <%= text_field_tag "name", @person.name %><br />
+  Name: <%= text_field_tag "name", @person.name %><br>
   Email: <%= text_field_tag "email", @person.email %>
   <%= submit_tag "Create Person" %>
 <% end %>
@@ -116,7 +116,7 @@ As you can see from the [docs][text_field_tag], the second argument to
 The HTML for the two field inputs used to look like this:
 
 ```html
-Name: <input type="text" name="name" id="name" /><br />
+Name: <input type="text" name="name" id="name" /><br>
 Email: <input type="text" name="email" id="email" />
 ```
 
@@ -261,3 +261,5 @@ we can't even begin to use more powerful tools like `form_for` correctly.
 
 Next, we'll dive into a lab using `form_tag` and artisinally craft our own
 markup.
+
+<a href='https://learn.co/lessons/validations-with-form_tag-rails' data-visibility='hidden'>View this lesson on Learn.co</a>

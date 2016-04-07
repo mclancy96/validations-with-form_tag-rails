@@ -191,7 +191,7 @@ be returned in an array of strings:
 ```
 
 With this in mind, we can conditionally "error-ify" each field in the form,
-wrapping each field in its own div:
+targeting the divs containing each field:
 
 ```erb
 <div class="field">
@@ -200,14 +200,10 @@ wrapping each field in its own div:
 </div>
 ```
 
-And conditionally swapping out the class if there are errors:
+And conditionally adding a class if there are errors:
 
 ```erb
-<% if @person.errors[:name].empty? %>
-  <div class="field">
-<% else %>
-  <div class="field_with_errors">
-<% end %>
+<div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
   <%= label_tag "name", "Name" %>
   <%= text_field_tag "name", @person.name %>
 </div>
@@ -230,20 +226,13 @@ By now, our full form has grown quite a bit:
     </div>
   <% end %>
 
-  <% if @person.errors[:name].empty? %>
-    <div class="field">
-  <% else %>
-    <div class="field_with_errors">
-  <% end %>
+  
+  <div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
     <%= label_tag "name", "Name" %>
     <%= text_field_tag "name", @person.name %>
   </div>
 
-  <% if @person.errors[:email].empty? %>
-    <div class="field">
-  <% else %>
-    <div class="field_with_errors">
-  <% end %>
+  <div class="field<%= ' field_with_errors' if @person.errors[:email].any? %>">
     <%= label_tag "email", "Email" %>
     <%= text_field_tag "email", @person.email %>
   </div>
@@ -263,3 +252,5 @@ Next, we'll dive into a lab using `form_tag` and artisinally craft our own
 markup.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails' title='Validations with form_tag'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>
+
+<p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>

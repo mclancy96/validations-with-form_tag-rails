@@ -26,8 +26,8 @@ No one likes re-doing work. First, let's make sure we know how to pre-fill
 forms with the user's input so they don't have to type everything all over
 again.
 
-There are two ways to pre-fill forms in rails; `form_tag` and `form_for`.
-`form_for` is *very* heavy on Rails magic, and continues to baffle scientists
+There are two ways to pre-fill forms in Rails: `form_tag` and `form_for`.
+`form_for` is *very* heavy on Rails magic and continues to baffle scientists
 to this day, so we'll be going over `form_tag` first.
 
 Let's start with a vanilla form (no pre-filled values yet), using the
@@ -93,7 +93,7 @@ With this in mind, we can use the invalid `@person` object to "re-fill" the
 usually-empty `new` form with the user's invalid entries. This way they don't
 have to re-type anything.
 
-(You wouldn't *always* want to do this, for example, with credit card numbers,
+(You wouldn't *always* want to do this –– for example, with credit card numbers ––
 because you want to minimize the amount of times sensitive information travels
 back and forth over the internet.)
 
@@ -132,7 +132,7 @@ their `value` attributes.
 
 This is the same technique used to create `edit`/`update` forms.
 
-We can also use the **same** form code for empty *and* pre-filled forms,
+We can also use the **same** form code for empty *and* pre-filled forms
 because `@person = Person.new` will create an empty model object whose
 attributes are all `nil`.
 
@@ -245,12 +245,10 @@ Notice that some whitespace has been added for "breathing room" and increased
 readability. Additionally, indentation has been very carefully maintained.
 
 It's already starting to feel pretty unwieldy to manually manage all of this
-conditional display logic, but without an understanding of the dirty details,
+conditional display logic, but, without an understanding of the dirty details,
 we can't even begin to use more powerful tools like `form_for` correctly.
 
-Next, we'll dive into a lab using `form_tag` and artisinally craft our own
+Next, we'll dive into a lab using `form_tag` and artisanally craft our own
 markup.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails' title='Validations with form_tag'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>
-
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>

@@ -178,7 +178,7 @@ This is nice, but it's not very helpful from a user interface standpoint. It
 would be much better if the incorrect fields themselves were highlighted
 somehow.
 
-# Displaying Per-Field Errors With `errors[]`
+# Displaying Pre-Field Errors With `errors[]`
 
 `ActiveModel::Errors` has much more than just a list of
 `full_message` error strings. It can also be used to access field-specific
@@ -252,3 +252,5 @@ Next, we'll dive into a lab using `form_tag` and artisanally craft our own
 markup.
 
 <p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails' title='Validations with form_tag'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>

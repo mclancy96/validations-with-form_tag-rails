@@ -19,7 +19,6 @@ After this lesson, you'll be able to...
 - Introspect on errors for a field
 - Apply an error class to invalid fields
 
-
 # Pre-Filling Form Values
 
 No one likes re-doing work. First, let's make sure we know how to pre-fill
@@ -27,7 +26,7 @@ forms with the user's input so they don't have to type everything all over
 again.
 
 There are two ways to pre-fill forms in Rails: `form_tag` and `form_for`.
-`form_for` is *very* heavy on Rails magic and continues to baffle scientists
+`form_for` is _very_ heavy on Rails magic and continues to baffle scientists
 to this day, so we'll be going over `form_tag` first.
 
 Let's start with a vanilla form (no pre-filled values yet), using the
@@ -93,7 +92,7 @@ With this in mind, we can use the invalid `@person` object to "re-fill" the
 usually-empty `new` form with the user's invalid entries. This way they don't
 have to re-type anything.
 
-(You wouldn't *always* want to do this –– for example, with credit card numbers ––
+(You wouldn't _always_ want to do this –– for example, with credit card numbers ––
 because you want to minimize the amount of times sensitive information travels
 back and forth over the internet.)
 
@@ -132,7 +131,7 @@ their `value` attributes.
 
 This is the same technique used to create `edit`/`update` forms.
 
-We can also use the **same** form code for empty *and* pre-filled forms
+We can also use the **same** form code for empty _and_ pre-filled forms
 because `@person = Person.new` will create an empty model object whose
 attributes are all `nil`.
 
@@ -209,6 +208,11 @@ And conditionally adding a class if there are errors:
 </div>
 ```
 
+**Note:** There is a deliberate space added in `' field_with_errors'` in the example
+above. If `@person.errors[:name].any?` validates to true, the goal here is to
+produce two class names separated by a space (`class=field field_with_errors`).
+Without the added space, we would get `class=fieldfield_with_errors` instead!
+
 # The Whole Picture
 
 By now, our full form has grown quite a bit:
@@ -226,7 +230,7 @@ By now, our full form has grown quite a bit:
     </div>
   <% end %>
 
-  
+
   <div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
     <%= label_tag "name", "Name" %>
     <%= text_field_tag "name", @person.name %>

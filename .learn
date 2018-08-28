@@ -1,5 +1,7 @@
 tags:
-  - tag1
+  - rails
+  - validations
+  - form_tag
 languages:
-  - language1
+  - ruby
 resources: 0

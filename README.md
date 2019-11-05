@@ -199,7 +199,7 @@ targeting the divs containing each field:
 </div>
 ```
 
-And conditionally adding a class if there are errors:
+Rails will add a class if there are errors, but you can manually do so like this:
 
 ```erb
 <div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
@@ -208,10 +208,14 @@ And conditionally adding a class if there are errors:
 </div>
 ```
 
-**Note:** There is a deliberate space added in `' field_with_errors'` in the example
-above. If `@person.errors[:name].any?` validates to true, the goal here is to
-produce two class names separated by a space (`class=field field_with_errors`).
-Without the added space, we would get `class=fieldfield_with_errors` instead!
+You can override `ActionView::Base.field_error_proc` to change it to something
+that suits your UI. It's currently defined as this within `ActionView::Base:`.
+
+**Note:** There is a deliberate space added in `' field_with_errors'` in the
+example above. If `@person.errors[:name].any?` validates to true, the goal here
+is to produce two class names separated by a space (`class=field
+field_with_errors`). Without the added space, we would get
+`class=fieldfield_with_errors` instead!
 
 # The Whole Picture
 

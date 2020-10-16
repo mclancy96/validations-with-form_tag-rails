@@ -258,7 +258,3 @@ we can't even begin to use more powerful tools like `form_for` correctly.
 
 Next, we'll dive into a lab using `form_tag` and artisanally craft our own
 markup.
-
-<p data-visibility='hidden'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails' title='Validations with form_tag'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>
-
-<p class='util--hide'>View <a href='https://learn.co/lessons/validations-with-form_tag-rails'>Validations with form_tag</a> on Learn.co and start learning to code for free.</p>

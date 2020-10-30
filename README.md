@@ -10,7 +10,7 @@ At this point, we'll be in step three of the following flow:
 2. The controller sees that validations have failed, and re-renders the form.
 3. **The view displays the errors to the user**.
 
-# Objectives
+## Objectives
 
 After this lesson, you'll be able to...
 
@@ -19,7 +19,7 @@ After this lesson, you'll be able to...
 - Introspect on errors for a field
 - Apply an error class to invalid fields
 
-# Pre-Filling Form Values
+## Pre-Filling Form Values
 
 No one likes re-doing work. First, let's make sure we know how to pre-fill
 forms with the user's input so they don't have to type everything all over
@@ -135,7 +135,7 @@ We can also use the **same** form code for empty _and_ pre-filled forms
 because `@person = Person.new` will create an empty model object whose
 attributes are all `nil`.
 
-# Displaying All Errors With `errors.full_messages`
+## Displaying All Errors With `errors.full_messages`
 
 When a model fails validation, its `errors` attribute is filled with
 information about what went wrong. Rails creates an
@@ -177,7 +177,7 @@ This is nice, but it's not very helpful from a user interface standpoint. It
 would be much better if the incorrect fields themselves were highlighted
 somehow.
 
-# Displaying Pre-Field Errors With `errors[]`
+## Displaying Pre-Field Errors With `errors[]`
 
 `ActiveModel::Errors` has much more than just a list of
 `full_message` error strings. It can also be used to access field-specific
@@ -217,7 +217,7 @@ is to produce two class names separated by a space (`class=field
 field_with_errors`). Without the added space, we would get
 `class=fieldfield_with_errors` instead!
 
-# The Whole Picture
+## The Whole Picture
 
 By now, our full form has grown quite a bit:
 

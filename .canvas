@@ -1,1 +1,6 @@
-
+---
+:lessons:
+- :id: validations-with-the-form-tag
+  :course_id: 3300
+  :canvas_url: https://learning.flatironschool.com/courses/3300/pages/validations-with-the-form-tag
+  :type: page

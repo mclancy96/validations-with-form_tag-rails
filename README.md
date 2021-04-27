@@ -10,6 +10,7 @@ At this point, we'll be in step three of the following flow:
 2. The controller sees that validations have failed, and re-renders the form.
 3. **The view displays the errors to the user**.
 
+
 ## Objectives
 
 After this lesson, you'll be able to...
@@ -18,6 +19,7 @@ After this lesson, you'll be able to...
 - Print out full error messages based on an invalid instance
 - Introspect on errors for a field
 - Apply an error class to invalid fields
+
 
 ## Pre-Filling Form Values
 

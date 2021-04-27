@@ -1,4 +1,4 @@
-# Validations with `form_tag`
+# Validations with form_tag
 
 Now that we've learned to handle the server side of validations, we need to
 take care of the client side.

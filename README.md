@@ -1,5 +1,7 @@
 # Validations with `form_tag`
 
+> **Note:** While this lesson uses `form_tag` for clarity, Rails now encourages the use of [`form_with`](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with) for new applications. For forms that are directly tied to a model, `form_for` was traditionally preferred over `form_tag`, but `form_with` is now the modern standard for both model and non-model forms. The techniques shown here still work, but consider using `form_with` in new production code.
+
 Now that we've learned to handle the server side of validations, we need to
 take care of the client side.
 
@@ -27,9 +29,14 @@ No one likes re-doing work. First, let's make sure we know how to pre-fill
 forms with the user's input so they don't have to type everything all over
 again.
 
-There are two ways to pre-fill forms in Rails: `form_tag` and `form_for`.
-`form_for` is _very_ heavy on Rails magic and continues to baffle scientists
-to this day, so we'll be going over `form_tag` first.
+
+There are three main helpers for building forms in Rails: `form_tag`, `form_for`, and `form_with`.
+
+- `form_tag` is for forms not directly tied to a model.
+- `form_for` is better suited for forms that are bound to a model instance, as it handles model attributes and errors more automatically.
+- `form_with` (introduced in Rails 5.1 and now the recommended approach) can handle both model and non-model forms and is the most flexible and future-proof option.
+
+In this lesson, we'll focus on `form_tag` for simplicity and to illustrate the basics, but keep in mind that for model-based forms, `form_for` or `form_with` are generally better choices.
 
 Let's start with a vanilla form (no pre-filled values yet), using the
 [FormTagHelper][form_tag_helper]:
@@ -254,9 +261,15 @@ By now, our full form has grown quite a bit:
 Notice that some whitespace has been added for "breathing room" and increased
 readability. Additionally, indentation has been very carefully maintained.
 
-It's already starting to feel pretty unwieldy to manually manage all of this
-conditional display logic, but, without an understanding of the dirty details,
-we can't even begin to use more powerful tools like `form_for` correctly.
+As you can see, manually managing all of this conditional display logic can become unwieldy as forms grow more complex. Understanding these details is important, but Rails provides more advanced helpers to make working with forms easier and less error-prone.
 
-Next, we'll dive into a lab using `form_tag` and artisanally craft our own
-markup.
+Historically, `form_for` was the go-to helper for model-based forms, while `form_tag` was used for simpler, non-model forms. However, in modern Rails, `form_with` is the recommended and most flexible approach for both scenarios. `form_with` combines the best features of both previous helpers and is designed to be the standard going forward.
+
+**Key takeaways:**
+- `form_tag` is useful for learning and for simple, non-model forms.
+- `form_for` is still seen in legacy code and is helpful for model-based forms, but is no longer the preferred choice.
+- `form_with` is the modern, recommended helper for all new Rails applications.
+
+In this lesson, you learned the fundamentals of form handling and validation feedback using `form_tag`. This foundation will help you better understand and appreciate the power and convenience of `form_with` as you progress in your Rails journey.
+
+Next, we'll dive into a lab using `form_tag` and artisanally craft our own markup, putting these concepts into practice.

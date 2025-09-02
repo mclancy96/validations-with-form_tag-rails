@@ -1,6 +1,15 @@
-# Validations with `form_tag`
+# Validations with `form_with`
 
-> **Note:** While this lesson uses `form_tag` for clarity, Rails now encourages the use of [`form_with`](https://api.rubyonrails.org/classes/ActionView/Helpers/FormHelper.html#method-i-form_with) for new applications. For forms that are directly tied to a model, `form_for` was traditionally preferred over `form_tag`, but `form_with` is now the modern standard for both model and non-model forms. The techniques shown here still work, but consider using `form_with` in new production code.
+## Introduction
+
+In modern Rails, the recommended way to build forms is with the `form_with` helper. This lesson will guide you through handling validations and user feedback using `form_with`, ensuring your forms are user-friendly and robust.
+
+You'll learn how to:
+
+- Pre-fill form values based on user input and model instances
+- Display validation errors clearly to users
+- Highlight invalid fields for better user experience
+- Use best practices for forms in Rails 7.1
 
 Now that we've learned to handle the server side of validations, we need to
 take care of the client side.
@@ -12,7 +21,6 @@ At this point, we'll be in step three of the following flow:
 2. The controller sees that validations have failed, and re-renders the form.
 3. **The view displays the errors to the user**.
 
-
 ## Objectives
 
 After this lesson, you'll be able to...
@@ -22,34 +30,22 @@ After this lesson, you'll be able to...
 - Introspect on errors for a field
 - Apply an error class to invalid fields
 
-
 ## Pre-Filling Form Values
 
 No one likes re-doing work. First, let's make sure we know how to pre-fill
 forms with the user's input so they don't have to type everything all over
 again.
 
-
-There are three main helpers for building forms in Rails: `form_tag`, `form_for`, and `form_with`.
-
-- `form_tag` is for forms not directly tied to a model.
-- `form_for` is better suited for forms that are bound to a model instance, as it handles model attributes and errors more automatically.
-- `form_with` (introduced in Rails 5.1 and now the recommended approach) can handle both model and non-model forms and is the most flexible and future-proof option.
-
-In this lesson, we'll focus on `form_tag` for simplicity and to illustrate the basics, but keep in mind that for model-based forms, `form_for` or `form_with` are generally better choices.
-
 Let's start with a vanilla form (no pre-filled values yet), using the
-[FormTagHelper][form_tag_helper]:
-
-[form_tag_helper]: http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html
+[`form_with` helper](https://api.rubyonrails.org/v7.1.0/classes/ActionView/Helpers/FormHelper.html#method-i-form_with):
 
 ```erb
 <!-- app/views/people/new.html.erb //-->
 
-<%= form_tag("/people") do %>
-  Name: <%= text_field_tag "name" %><br>
-  Email: <%= text_field_tag "email" %>
-  <%= submit_tag "Create Person" %>
+<%= form_with url: "/people", local: true do |form| %>
+  Name: <%= form.text_field :name %><br>
+  Email: <%= form.text_field :email %>
+  <%= form.submit "Create Person" %>
 <% end %>
 ```
 
@@ -105,23 +101,19 @@ have to re-type anything.
 because you want to minimize the amount of times sensitive information travels
 back and forth over the internet.)
 
-Now, let's plug the information back into the form:
+Now, let's plug the information back into the form using `form_with` and pre-fill the values from the `@person` instance:
 
 ```erb
 <!-- app/views/people/new.html.erb //-->
 
-<%= form_tag "/people" do %>
-  Name: <%= text_field_tag "name", @person.name %><br>
-  Email: <%= text_field_tag "email", @person.email %>
-  <%= submit_tag "Create Person" %>
+<%= form_with model: @person, local: true do |form| %>
+  Name: <%= form.text_field :name %><br>
+  Email: <%= form.text_field :email %>
+  <%= form.submit "Create Person" %>
 <% end %>
 ```
 
-[text_field_tag]: http://api.rubyonrails.org/classes/ActionView/Helpers/FormTagHelper.html#method-i-text_field_tag
-
-As you can see from the [docs][text_field_tag], the second argument to
-`text_field_tag`, as with most form tag helpers, is the "default" value.
-The HTML for the two field inputs used to look like this:
+As you can see from the [docs for `form_with`](https://api.rubyonrails.org/v7.1.0/classes/ActionView/Helpers/FormHelper.html#method-i-form_with), using the `model:` option automatically pre-fills the form fields with the values from the model instance. The HTML for the two field inputs used to look like this:
 
 ```html
 Name: <input type="text" name="name" id="name" /><br>
@@ -131,8 +123,8 @@ Email: <input type="text" name="email" id="email" />
 But now it will look like this:
 
 ```html
-Name: <input type="text" name="name" id="name" value="Jane Developer" /><br />
-Email: <input type="text" name="email" id="email" value="jane@developers.fake" />
+Name: <input type="text" name="person[name]" id="person_name" value="Jane Developer" /><br />
+Email: <input type="text" name="person[email]" id="person_email" value="jane@developers.fake" />
 ```
 
 When the browser renders those inputs, they'll be pre-filled with the data in
@@ -148,11 +140,9 @@ attributes are all `nil`.
 
 When a model fails validation, its `errors` attribute is filled with
 information about what went wrong. Rails creates an
-[ActiveModel::Errors][activemodel_errors] object to carry this information.
+[ActiveModel::Errors](https://api.rubyonrails.org/v7.1.0/classes/ActiveModel/Errors.html) object to carry this information.
 
-[activemodel_errors]: http://api.rubyonrails.org/classes/ActiveModel/Errors.html
-
-The simplest way to show errors is to just spit them all out at the top of the
+The simplest way to show errors is to just display them at the top of the
 form by iterating over `@person.errors.full_messages`. But first, we'll have to
 check whether there are errors to display with `@person.errors.any?`.
 
@@ -199,21 +189,12 @@ be returned in an array of strings:
 ```
 
 With this in mind, we can conditionally "error-ify" each field in the form,
-targeting the divs containing each field:
-
-```erb
-<div class="field">
-  <%= label_tag "name", "Name" %>
-  <%= text_field_tag "name", @person.name %>
-</div>
-```
-
-Rails will add a class if there are errors, but you can manually do so like this:
+targeting the divs containing each field. With `form_with`, you can use the form builder to generate fields and labels, and add error classes as needed:
 
 ```erb
 <div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
-  <%= label_tag "name", "Name" %>
-  <%= text_field_tag "name", @person.name %>
+  <%= form.label :name, "Name" %>
+  <%= form.text_field :name %>
 </div>
 ```
 
@@ -231,7 +212,7 @@ field_with_errors`). Without the added space, we would get
 By now, our full form has grown quite a bit:
 
 ```erb
-<%= form_tag("/people") do %>
+<%= form_with model: @person, local: true do |form| %>
   <% if @person.errors.any? %>
     <div id="error_explanation">
       <h2>There were some errors:</h2>
@@ -243,33 +224,32 @@ By now, our full form has grown quite a bit:
     </div>
   <% end %>
 
-
   <div class="field<%= ' field_with_errors' if @person.errors[:name].any? %>">
-    <%= label_tag "name", "Name" %>
-    <%= text_field_tag "name", @person.name %>
+    <%= form.label :name, "Name" %>
+    <%= form.text_field :name %>
   </div>
 
   <div class="field<%= ' field_with_errors' if @person.errors[:email].any? %>">
-    <%= label_tag "email", "Email" %>
-    <%= text_field_tag "email", @person.email %>
+    <%= form.label :email, "Email" %>
+    <%= form.text_field :email %>
   </div>
 
-  <%= submit_tag "Create" %>
+  <%= form.submit "Create" %>
 <% end %>
 ```
 
-Notice that some whitespace has been added for "breathing room" and increased
-readability. Additionally, indentation has been very carefully maintained.
+Notice that some whitespace has been added for "breathing room" and increased readability. Additionally, indentation has been very carefully maintained.
 
-As you can see, manually managing all of this conditional display logic can become unwieldy as forms grow more complex. Understanding these details is important, but Rails provides more advanced helpers to make working with forms easier and less error-prone.
+As you can see, manually managing all of this conditional display logic can become unwieldy as forms grow more complex. Understanding these details is important, but Rails provides advanced helpers to make working with forms easier and less error-prone.
 
-Historically, `form_for` was the go-to helper for model-based forms, while `form_tag` was used for simpler, non-model forms. However, in modern Rails, `form_with` is the recommended and most flexible approach for both scenarios. `form_with` combines the best features of both previous helpers and is designed to be the standard going forward.
+`form_with` is the recommended and most flexible approach for building forms. It combines the best features of previous helpers and is designed to be the standard going forward.
 
 **Key takeaways:**
-- `form_tag` is useful for learning and for simple, non-model forms.
-- `form_for` is still seen in legacy code and is helpful for model-based forms, but is no longer the preferred choice.
+
 - `form_with` is the modern, recommended helper for all new Rails applications.
+  - It works for both model-based and non-model forms.
+  - It provides a clean, consistent API and integrates well with Rails' validation and error handling features.
 
-In this lesson, you learned the fundamentals of form handling and validation feedback using `form_tag`. This foundation will help you better understand and appreciate the power and convenience of `form_with` as you progress in your Rails journey.
+In this lesson, you learned the fundamentals of form handling and validation feedback using `form_with`. This foundation will help you build robust, user-friendly forms in your Rails applications.
 
-Next, we'll dive into a lab using `form_tag` and artisanally craft our own markup, putting these concepts into practice.
+Next, we'll dive into a lab using `form_with` and artisanally craft our own markup, putting these concepts into practice.
